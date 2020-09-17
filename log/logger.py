@@ -1,6 +1,8 @@
 # Author: Tristan Challener <challenert@gmail.com>
 # Copyright: please don't steal this that is all
 
+import os
+
 """
 Utilities for manipulating digimon data.
 """
@@ -22,8 +24,10 @@ class Logger:
         self.error = False
 
         self.filename = filename
+        self.file = None
+
         if( self.filename is not None ):
-            with open( self.filename, 'w' ) as file:
+            with open( self.filename, 'w' ):
                 self.logAlways( self.getHeader( 'Digimon World Randomization Log' ) )
                 self.logAlways( 'Logging mode is set to \'' + verbose + '\'' )
 
@@ -80,7 +84,29 @@ class Logger:
 
         self.logError( str )
         print( 'Program ended with errors.  See log file for errors.' )
+        self.close()
         exit()
+
+
+    def close( self ):
+        """
+        Close the logging file.
+        """
+
+        self.logAlways( self.getHeader( 'End of Log' ) )
+        if( self.file is not None ):
+            self.file.close()
+
+
+    def rename( self, newName ):
+        """
+        Close the logging file.
+
+        Keyword arguments:
+        newName -- New name of file
+        """
+
+        os.rename( self.filename, newName )
 
 
     def logAlways( self, str ):
@@ -93,8 +119,9 @@ class Logger:
         """
 
         if( self.filename is not None ):
-            with open( self.filename, 'a' ) as file:
-                file.write( str + '\n' )
+            if( self.file is None ):
+                self.file = open( self.filename, 'a' )
+            self.file.write( str + '\n' )
         else:
             print( str )
 
