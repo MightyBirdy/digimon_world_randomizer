@@ -738,10 +738,27 @@ evoTargetUnifyHack       = { 0x14CD7520: 0x0C038AED, 0x14D19A14: 0x24050003,
                              0x14D19A20: 0x8FB00018, 0x14D19A2C: 0x16050004, }
 
 #Reset button combination/custom tick function
-customTickFunctionFormat = '<9I'
-customTickFunctionValue  = ( 0x8F8293B8, 0x200301F0, 0x00430824, 0x14230003,
-                             0x240A00A0, 0x01400008, 0x240900A0, 0x03E00008,
-                             0x00000000, )
+customTickFunctionFormat = '<17I'
+customTickFunctionValue  = ( 0x8F8293B8, # lw r2, -0x6C48(r28)          | get pressed buttons
+                             0x200301F0, # addi r3,r0,0x01f0            | check button mask
+                             0x00430824, # and r1,r2,r3                 
+                             0x14230005, # bne r1,r3,after_reset_label  | return if combo no pressed
+                             0x00000000, # nop
+                             0x0c038bcd, # jal srand
+                             0x00002021, # r4,r0,r0                     | call srand()
+                             0x0C038BD0, # jal WarmBoot
+                             0x00000000, # nop
+                             0x03E00008, # jr r31
+                             0x00000000, # nop
+                             # srand
+                             0x240A00A0, # addiu r10,r0,0x00a0
+                             0x01400008, # jr r10
+                             0x24090030, # addiu r9,r0,0x0030
+                             # WarmBoot
+                             0x240A00A0, # addiu r10,r0,0x00a0
+                             0x01400008, # jr r10
+                             0x240900A0, # addiu r9,r0,0x00a0
+                             )
 customTickFunctionOffset = 0x14D19A70
 
 customTickHookFormat     = '<I'
