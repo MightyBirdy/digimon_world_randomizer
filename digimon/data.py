@@ -732,6 +732,17 @@ fixLeoCaveSLFormat       = "B"
 fixLeoCaveSLValue        = 0x3B
 fixLeoCaveSLOffset       = ( 0x14030380, 0x14030444, 0x14030D36, 0x14030DFA, 0x140317F6, 0x140318BA, 0x140321C8, 0x1403228C )
 
+#Fix "MP Consumption Bonus" softlock
+fixMPConsSLFormat         = "B"
+fixMPConsSLValue          = 2
+fixMPConsSLOffset         = 0x14B605E0
+
+fixMPConsSLText1Format    = "<27s"
+fixMPConsSLText1Offset    = 0x14B72E44
+
+fixMPConsSLText2Format    = "<11s"
+fixMPConsSLText2Offset    = 0x14B72E60
+
 #Unify evolution target function to free memory
 evoTargetUnifyHackFormat = '<I'
 evoTargetUnifyHack       = { 0x14CD7520: 0x0C038AED, 0x14D19A14: 0x24050003,

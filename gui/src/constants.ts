@@ -469,7 +469,9 @@ export const patchElements: SectionElement<Main.PatchSettings>[] = [
   { attribute: "Softlock",
     inputType: InputVariation.Checkbox,
     label: "Fix Softlocks",
-    tooltip: `This fixes some movement related softlocks.` },
+    tooltip: `This patches several common softlocks:
+              - 4 movement/script based softlocks
+              - the "MP Consumption" softloc` },
   { attribute: "LearnMoveAndCommand",
     inputType: InputVariation.Checkbox,
     label: "Fix Brains Learning",

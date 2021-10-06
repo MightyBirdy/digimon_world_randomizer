@@ -2324,6 +2324,7 @@ class DigimonWorldHandler:
             if( useWeakest ):
                 lowestTier = 0xFF
                 lowestTierID = 0
+                lowestTierSlot = 1
                 for slot, techID in enumerate( self.digimonData[ self.starterID[ i ] ].tech ) :
                     if( self.getTechName( techID ) != 'None' and self.getTechName( techID ) != 'Counter' ):
                         tier = self.techData[ techID ].tier
@@ -2670,6 +2671,7 @@ class DigimonWorldHandler:
     def _applyPatchMovementSoftlock( self, file ):
         """
         Prevents entityMoveTo/entityWalkTo softlocks
+        Prevents "MP Consumption Bonus" softlock
         """
         
         for ofst in data.fixRotationSLOffset:
@@ -2696,7 +2698,22 @@ class DigimonWorldHandler:
                                   struct.pack( data.fixLeoCaveSLFormat, data.fixLeoCaveSLValue ),
                                   self.logger )
         
-        self.logger.logChange( "Applied 4 movement softlock patches." )
+        # MP Consumption Bonus softlock fix
+        util.writeDataToFile( file, 
+                              data.fixMPConsSLOffset, 
+                              struct.pack(data.fixMPConsSLFormat, 
+                              data.fixMPConsSLValue), 
+                              self.logger)
+        util.writeDataToFile( file, 
+                              data.fixMPConsSLText1Offset, 
+                              struct.pack(data.fixMPConsSLText1Format, "#C1MP usage#R".encode('ascii')), 
+                              self.logger)
+        util.writeDataToFile( file, data.fixMPConsSLText2Offset, 
+                              struct.pack(data.fixMPConsSLText2Format, "reduced by ".encode('ascii')), 
+                              self.logger)
+
+
+        self.logger.logChange( "Applied 5 softlock patches." )
         
     def _applyPatchUnifyEvoTargetFunction( self, file ):
         """
