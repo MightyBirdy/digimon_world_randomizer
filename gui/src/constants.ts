@@ -490,4 +490,11 @@ export const patchElements: SectionElement<Main.PatchSettings>[] = [
     tooltip: 
         `Replaces Meat trade with a Happymushroom trade at the vending machine
          at Dragon Eye Lake's top area.` },
+  {
+    attribute: "FixMusicTransition",
+    inputType: InputVariation.Checkbox,
+    label: "Improve BGM transition",
+    tooltip:
+        `Prevents the background music from resetting on every screen transition 
+         if the track hasn't changed.` },
 ]

@@ -1237,6 +1237,8 @@ class DigimonWorldHandler:
                     self._applyPatchDVChipDescription( file )
                 elif( patch == 'happyVending'):
                     self._applyPatchGuaranteeHappyShrm( file )
+                elif( patch == 'fixMusicTransition'):
+                    self._applyPatchMusicTransition( file )
 
 
             #------------------------------------------------------
@@ -2829,3 +2831,11 @@ class DigimonWorldHandler:
                                   ofst,
                                   struct.pack( data.happyMushroomVendingFormat5, data.happyMushroomVendingValue5 ),
                                   self.logger )
+
+    def _applyPatchMusicTransition( self, file ):
+        for ofst, value in data.fixBGMResetValues.items():
+            util.writeDataToFile( file,
+                                  ofst,
+                                  struct.pack( data.fixBGMResetFormat, value ),
+                                  self.logger )
+        self.logger.logChange( "Fixed music transition on map chance." )

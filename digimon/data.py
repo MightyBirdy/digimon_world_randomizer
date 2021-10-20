@@ -776,6 +776,11 @@ customTickHookFormat     = '<I'
 customTickHookValue      = 0x24E72F08
 customTickHookOffset     = 0x14D1A388
 
+fixBGMResetFormat        = '<I'
+fixBGMResetValues        = { 0x14D42BB0: 0x00000000, # nop
+                             0x14D3E050: 0x00000000, # nop
+                             }
+
 #Unlock type-locked areas
 unlockTypeLockFormat     = '<H'
 

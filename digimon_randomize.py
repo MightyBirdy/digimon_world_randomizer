@@ -184,6 +184,10 @@ if( config[ 'patches' ][ 'Enabled' ] ):
     if( config[ 'patches' ][ 'HappyVending' ] ):
         handler.applyPatch( 'happyVending' )
 
+    if( config[ 'patches' ][ 'FixMusicTransition' ] ):
+        handler.applyPatch( 'fixMusicTransition' )
+        
+
 print( 'Writing to ' + outFile + '...' )
 sys.stdout.flush()
 
