@@ -797,7 +797,8 @@ unlockToyTownOffset      = ( 0x140479EA, )
 #Ogremon 2 / Nanimon softlock
 ogremonSoftlockFormat    = '<H'
 ogremonSoftlockValue     = 175
-ogremonSoftlockOffset    = ( 0x13FD689A, 0x140B7A1A )
+ogremonSoftlockOffset    = ( 0x134D6D4C, 0x140B7ED2 )
+#ogremonSoftlockOffset    = ( 0x13FD689A, 0x140B7A1A )
 
 #Spawn rate for RNG digimon recruit spawns
 spawnRateFormat          = '<B'
