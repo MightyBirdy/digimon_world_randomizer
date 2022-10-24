@@ -2703,6 +2703,12 @@ class DigimonWorldHandler:
                                   self.logger )
         
         # MP Consumption Bonus softlock fix
+        
+        util.writeDataToFile( file, 
+                              data.fixMPConsSL2Offset, 
+                              struct.pack(data.fixMPConsSL2Format, 
+                              data.fixMPConsSL2Value), 
+                              self.logger)
         util.writeDataToFile( file, 
                               data.fixMPConsSLOffset, 
                               struct.pack(data.fixMPConsSLFormat, 

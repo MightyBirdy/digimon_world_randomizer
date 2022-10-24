@@ -737,6 +737,10 @@ fixMPConsSLFormat         = "B"
 fixMPConsSLValue          = 2
 fixMPConsSLOffset         = 0x14B605E0
 
+fixMPConsSL2Format         = "B"
+fixMPConsSL2Value          = 0
+fixMPConsSL2Offset         = 0x14B60750
+
 fixMPConsSLText1Format    = "<27s"
 fixMPConsSLText1Offset    = 0x14B72E44
 
