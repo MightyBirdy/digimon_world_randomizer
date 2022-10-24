@@ -1239,6 +1239,8 @@ class DigimonWorldHandler:
                     self._applyPatchGuaranteeHappyShrm( file )
                 elif( patch == 'fixMusicTransition'):
                     self._applyPatchMusicTransition( file )
+                elif( patch == 'fixdevimonstatgain'):
+                    self._applyPatchFixDevimonStatgain( file )
 
 
             #------------------------------------------------------
@@ -2839,3 +2841,9 @@ class DigimonWorldHandler:
                                   struct.pack( data.fixBGMResetFormat, value ),
                                   self.logger )
         self.logger.logChange( "Fixed music transition on map chance." )
+
+    def _applyPatchFixDevimonStatgain( self, file ):
+        util.writeDataToFile( file,
+                              data.devimonStatOffset,
+                              struct.pack( data.devimonStatFormat, data.devimonStatValue ),
+                              self.logger )

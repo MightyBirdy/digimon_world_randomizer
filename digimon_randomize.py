@@ -134,6 +134,7 @@ if( config[ 'evolution' ][ 'Enabled' ] ):
     if( config[ 'evolution' ][ 'SpecialEvolutions' ] ):
         handler.randomizeSpecialEvolutions()
         handler.updateEvolutionStats()
+        handler.applyPatch('fixDevimonStatgain')
 
 if( config[ 'patches' ][ 'Enabled' ] ):
     if( config[ 'patches' ][ 'EvoItemStatGain' ] ):

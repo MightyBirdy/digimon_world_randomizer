@@ -749,27 +749,156 @@ evoTargetUnifyHack       = { 0x14CD7520: 0x0C038AED, 0x14D19A14: 0x24050003,
                              0x14D19A20: 0x8FB00018, 0x14D19A2C: 0x16050004, }
 
 #Reset button combination/custom tick function
-customTickFunctionFormat = '<17I'
-customTickFunctionValue  = ( 0x8F8293B8, # lw r2, -0x6C48(r28)          | get pressed buttons
-                             0x200301F0, # addi r3,r0,0x01f0            | check button mask
-                             0x00430824, # and r1,r2,r3                 
-                             0x14230005, # bne r1,r3,after_reset_label  | return if combo no pressed
-                             0x00000000, # nop
-                             0x0c038bcd, # jal srand
-                             0x00002021, # r4,r0,r0                     | call srand()
-                             0x0C038BD0, # jal WarmBoot
-                             0x00000000, # nop
-                             0x03E00008, # jr r31
-                             0x00000000, # nop
-                             # srand
-                             0x240A00A0, # addiu r10,r0,0x00a0
-                             0x01400008, # jr r10
-                             0x24090030, # addiu r9,r0,0x0030
-                             # WarmBoot
-                             0x240A00A0, # addiu r10,r0,0x00a0
-                             0x01400008, # jr r10
-                             0x240900A0, # addiu r9,r0,0x00a0
-                             )
+"""
+; Custom Tick Hook
+.org 0x000e2f08
+  addiu sp,sp,-0x18
+  sw r31,0x10(sp)
+  jal fn_reset_combo
+  nop
+  jal fn_autotalk_keycheck
+  nop
+  jal fn_autotalk_check
+  nop
+  lw r31,0x10(sp)
+  addiu sp,sp,0x18
+  jr r31
+  nop
+
+; Auto Talk Check, sets internal value
+fn_autotalk_check:
+  lw r8,lbl_autotalk_keyckeck_storage
+  lb r2,-0x6B47(r28)
+  addiu r1,r0,0x0001
+  beq r2,r1,lbl_autotalk_check_end
+  addiu r1,r0,0x0002
+  beq r8,r0,lbl_autotalk_check_end
+  sb r0,-0x6B47(r28)
+  sb r1,-0x6B47(r28)
+lbl_autotalk_check_end:
+  jr r31
+  nop
+
+; Auto Talk toggle and hold checks
+fn_autotalk_keycheck:
+  sw r31,0x14(sp)
+  lw r2, -0x6C48(r28)   ; polled input
+  lw r8,lbl_autotalk_keyckeck_storage
+  addiu r1,r0,0x0004
+  and r4,r2,r1          ; L1 + R1 pressed
+  bne r4,r1,lbl_autotalk_keycheck_toggle
+  andi r8,r8,0xFFFD
+  ori r8,r8,0x0002
+lbl_autotalk_keycheck_toggle:
+  andi r4,r2,0x0100          ; select pressed
+  beq r4,r0,lbl_autotalk_keycheck_end
+  lw r31,0x14(sp)
+  jal 0x000fc054 ; isKeyDown
+  addi r4,r0,0x0004 ; L1
+  beq r2,r0,lbl_autotalk_keycheck_end
+  lw r31,0x14(sp)
+  xori r8,r8,0x0001
+lbl_autotalk_keycheck_end:
+  sw r8,lbl_autotalk_keyckeck_storage
+  jr r31
+  nop
+  
+lbl_autotalk_keyckeck_storage:
+  .word 0
+
+; reset button combination
+fn_reset_combo:
+  lw r2,-0x6C48(r28)
+  addi r3,r0,0x01f0
+  and r1,r2,r3
+  bne r1,r3,fn_reset_combo_end
+  nop
+  jal srand
+  addu r4,r0,r0
+  jal WarmBoot
+  nop
+fn_reset_combo_end:
+  jr r31
+  nop
+
+; srand BIOS call
+srand:
+  addiu r10,r0,0x00a0
+  jr r10
+  addiu r9,r0,0x0030
+
+; WarmBoot BIOS call
+WarmBoot:
+  addiu r10,r0,0x00a0
+  jr r10
+  addiu r9,r0,0x00a0
+"""
+
+
+customTickFunctionFormat = '<62I'
+customTickFunctionValue  = (  0x27BDFFE8,
+                              0xAFBF0010,
+                              0x0C038BEF,
+                              0x00000000,
+                              0x0C038BD9,
+                              0x00000000,
+                              0x0C038BCE,
+                              0x00000000,
+                              0x8FBF0010,
+                              0x27BD0018,
+                              0x03E00008,
+                              0x00000000,
+                              0x3C08000E,
+                              0x8D082FB8,
+                              0x838294B9,
+                              0x24010001,
+                              0x10410004,
+                              0x24010002,
+                              0x11000002,
+                              0xA38094B9,
+                              0xA38194B9,
+                              0x03E00008,
+                              0x00000000,
+                              0xAFBF0014,
+                              0x8F8293B8,
+                              0x3C08000E,
+                              0x8D082FB8,
+                              0x24010004,
+                              0x00412024,
+                              0x14810002,
+                              0x3108FFFD,
+                              0x35080002,
+                              0x30440100,
+                              0x10800006,
+                              0x8FBF0014,
+                              0x0C03F015,
+                              0x20040004,
+                              0x10400002,
+                              0x8FBF0014,
+                              0x39080001,
+                              0x3C01000E,
+                              0xAC282FB8,
+                              0x03E00008,
+                              0x00000000,
+                              0x00000000,
+                              0x8F8293B8,
+                              0x200301F0,
+                              0x00430824,
+                              0x14230005,
+                              0x00000000,
+                              0x0C038BFA,
+                              0x00002021,
+                              0x0C038BFD,
+                              0x00000000,
+                              0x03E00008,
+                              0x00000000,
+                              0x240A00A0,
+                              0x01400008,
+                              0x24090030,
+                              0x240A00A0,
+                              0x01400008,
+                              0x240900A0,
+                            )
 customTickFunctionOffset = 0x14D19A70
 
 customTickHookFormat     = '<I'
@@ -854,3 +983,8 @@ happyMushroomVendingPriceValue = 2000
 happyMushroomVendingOffset5 = ( 0x13FE3326, 0x13FE3338, 0x13FE3382 )
 happyMushroomVendingFormat5 = "B"
 happyMushroomVendingValue5 = 69
+
+# Let Devimon use the regular evolution stat gain algorithm
+devimonStatOffset = 0x14B97064
+devimonStatFormat = "I"
+devimonStatValue = 0
