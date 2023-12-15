@@ -1239,7 +1239,7 @@ class DigimonWorldHandler:
                     self._applyPatchGuaranteeHappyShrm( file )
                 elif( patch == 'fixMusicTransition'):
                     self._applyPatchMusicTransition( file )
-                elif( patch == 'fixdevimonstatgain'):
+                elif( patch == 'fixDevimonStatgain'):
                     self._applyPatchFixDevimonStatgain( file )
 
 
