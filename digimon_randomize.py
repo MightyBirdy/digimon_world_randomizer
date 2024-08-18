@@ -134,6 +134,7 @@ if( config[ 'evolution' ][ 'Enabled' ] ):
     if( config[ 'evolution' ][ 'SpecialEvolutions' ] ):
         handler.randomizeSpecialEvolutions()
         handler.updateEvolutionStats()
+        handler.applyPatch('fixDevimonStatgain')
 
 if( config[ 'patches' ][ 'Enabled' ] ):
     if( config[ 'patches' ][ 'EvoItemStatGain' ] ):
@@ -183,6 +184,10 @@ if( config[ 'patches' ][ 'Enabled' ] ):
 
     if( config[ 'patches' ][ 'HappyVending' ] ):
         handler.applyPatch( 'happyVending' )
+
+    if( config[ 'patches' ][ 'FixMusicTransition' ] ):
+        handler.applyPatch( 'fixMusicTransition' )
+        
 
 print( 'Writing to ' + outFile + '...' )
 sys.stdout.flush()

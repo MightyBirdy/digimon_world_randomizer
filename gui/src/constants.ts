@@ -469,7 +469,9 @@ export const patchElements: SectionElement<Main.PatchSettings>[] = [
   { attribute: "Softlock",
     inputType: InputVariation.Checkbox,
     label: "Fix Softlocks",
-    tooltip: `This fixes some movement related softlocks.` },
+    tooltip: `This patches several common softlocks:
+              - 4 movement/script based softlocks
+              - the "MP Consumption" softloc` },
   { attribute: "LearnMoveAndCommand",
     inputType: InputVariation.Checkbox,
     label: "Fix Brains Learning",
@@ -488,4 +490,11 @@ export const patchElements: SectionElement<Main.PatchSettings>[] = [
     tooltip: 
         `Replaces Meat trade with a Happymushroom trade at the vending machine
          at Dragon Eye Lake's top area.` },
+  {
+    attribute: "FixMusicTransition",
+    inputType: InputVariation.Checkbox,
+    label: "Improve BGM transition",
+    tooltip:
+        `Prevents the background music from resetting on every screen transition 
+         if the track hasn't changed.` },
 ]

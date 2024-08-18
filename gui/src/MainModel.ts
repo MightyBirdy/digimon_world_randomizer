@@ -102,6 +102,7 @@ export interface PatchSettings extends Toggleable {
     LearnMoveAndCommand : boolean
     FixDVChips          : boolean
     HappyVending        : boolean
+    FixMusicTransition  : boolean
 }
 
 /* Public Constants */
@@ -202,6 +203,7 @@ export class MainModel {
             LearnMoveAndCommand : false,
             FixDVChips          : false,
             HappyVending        : false,
+            FixMusicTransition  : false,
         }
 
         if( raw ) {
